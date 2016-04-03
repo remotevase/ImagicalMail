@@ -143,14 +143,14 @@ class ImagicalMail extends PluginBase implements Listener {
         $messagecount = ImagicalMain::getMessageCount($player);
         $player->sendMessage($prefix. " " . sprintf($this->getMessage("messages.count"), $messagecount) . ".  /"
                 . $this->getMessage("commands.names.mail") . " "
-                . $this->getMessage("commands.names.read"));
+                . $this->getMessage("commands.names.see"));
     }
     public function getMessage($key) {
         return isset($this->messages[$key]) ? $this->messages[$key] : $key;
     }
     public function getMainCommandUsage() {
         return "/" . $this->getMessage("commands.names.mail")
-                . " < " . $this->getMessage("commands.names.read") . " | "
+                . " < " . $this->getMessage("commands.names.see") . " | "
                 . $this->getMessage("commands.names.clear") . " | "
                 . $this->getMessage("commands.names.send") . " | "
                 . $this->getMessage("commands.names.sendall") . " >";
