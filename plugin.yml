@@ -1,6 +1,6 @@
 name: ImagicalMail
 author: remote_vase
-version: 1.0.0dev#1
+version: 1.0.0dev1
 api: [1.0.0, 2.0.0, 3.0.0]
 main: ImagicalMail\ImagicalLoader\Loader
 load: POSTWORLD
@@ -13,4 +13,7 @@ commands:
     description: Clear your ImagicalInbox
   mail send:
     usage: /mail send
-    description: Send an ImagicalMail to someones ImagicalInbox
+    description: Send an ImagicalMessage to someones ImagicalInbox
+  mail sendtoall:
+    usage: /mail sendtoall
+    description: Send an ImagicalMessage to all players
