@@ -72,11 +72,11 @@ class ImagicalMail extends PluginBase implements Listener {
                             $sender->sendImagicalMessage($this->getSendCommandUsage());
                         }
                         break;
-                    case "sendall":
+                    case "sendtoall":
                         if ($sender->hasPermission("imagicalmail.command.mail.all")) {
                             $senderName = $this->getUserName($sender);
                             $ImagicalMessage = implode(" ", $args);
-                            ImagicalMain::sendall($senderName, $ImagicalMessage);
+                            ImagicalMain::sendtoall($senderName, $ImagicalMessage);
                             $sender->sendImagicalMessage($prefix. " " . $this->getImagicalMessage("ImagicalMessages.sent"));
                             foreach ($this->getServer()->getOnlinePlayers() as $player) {
                                 $this->sendNotification($player->getName(), $senderName);
@@ -153,7 +153,7 @@ class ImagicalMail extends PluginBase implements Listener {
                 . " < " . $this->getImagicalMessage("commands.names.see") . " | "
                 . $this->getImagicalMessage("commands.names.clear") . " | "
                 . $this->getImagicalMessage("commands.names.send") . " | "
-                . $this->getImagicalMessage("commands.names.sendall") . " >";
+                . $this->getImagicalMessage("commands.names.sendtoall") . " >";
     }
     public function getSendCommandUsage() {
         return $this->getImagicalMessage("commands.usage.usage") . ": /"
