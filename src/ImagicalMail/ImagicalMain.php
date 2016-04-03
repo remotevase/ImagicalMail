@@ -93,7 +93,7 @@ class ImagicalMain {
         }
         return $mcount;
     }
-    public static function sendall($sender, $ImagicalMessage) {
+    public static function sendtoall($sender, $ImagicalMessage) {
         $directory_iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(self::$dataDir . "players/"));
         foreach ($directory_iterator as $filename => $path_object) {
             if (stripos(strrev($filename), "lmy.") === 0) {
