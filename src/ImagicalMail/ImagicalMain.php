@@ -20,14 +20,14 @@ class ImagicalMain {
         }
     }
     public static function getImagicalMessageCount($player) {
-        return count(self::getImagicalImagicalImagicalImagicalImagicalMessages($player));
+        return count(self::getImagicalMessages($player));
     }
-    public static function getImagicalImagicalImagicalImagicalImagicalMessages($player) {
+    public static function getImagicalMessages($player) {
         $d = self::getData($player);
         if ($d === false) {
             return false;
         }
-        $m = $d->get("ImagicalImagicalImagicalImagicalImagicalMessages");
+        $m = $d->get("ImagicalMessages");
         if ($d->get("firstrun")) {
             $m[] = array(
                 "time" => time(),
@@ -42,21 +42,21 @@ class ImagicalMain {
         if ($d === false) {
             return false;
         }
-        $e = $d->get("ImagicalImagicalImagicalImagicalImagicalMessages");
+        $e = $d->get("ImagicalMessages");
         $e[] = array(
             "time" => time(),
             "sender" => "$sender",
             "ImagicalMessage" => "$ImagicalMessage",
         );
-        $d->set("ImagicalImagicalImagicalImagicalImagicalMessages", $e);
+        $d->set("ImagicalMessages", $e);
         $d->save();
     }
-    public static function clearImagicalImagicalImagicalImagicalImagicalMessages($player) {
+    public static function clearImagicalMessages($player) {
         $d = self::getData($player);
         if ($d === false) {
             return false;
         }
-        $d->remove("ImagicalImagicalImagicalImagicalImagicalMessages");
+        $d->remove("ImagicalMessages");
         $d->set("firstrun", false);
         $d->save();
     }
@@ -73,20 +73,20 @@ class ImagicalMain {
             @mkdir(self::$dataDir . "players/" . $iusername{0} . "/", 0777, true);
             $d = new Config(self::$dataDir . "players/" . $iusername{0} . "/" . $iusername . ".yml", Config::YAML, array(
                 "firstrun" => true,
-                "ImagicalImagicalImagicalImagicalImagicalMessages" => array(),
+                "ImagicalMessages" => array(),
             ));
             $d->save();
             return $d;
         }
         return new Config(self::$dataDir . "players/" . $iusername{0} . "/" . $iusername . ".yml", Config::YAML, array(
             "firstrun" => true,
-            "ImagicalImagicalImagicalImagicalImagicalMessages" => array(),
+            "ImagicalMessages" => array(),
         ));
     }
-    public static function countImagicalImagicalImagicalImagicalImagicalMessagesFromPlayer($fromPlayer, $toPlayer) {
+    public static function countImagicalMessagesFromPlayer($fromPlayer, $toPlayer) {
         $mcount = 0;
-        $ImagicalImagicalImagicalImagicalImagicalMessages = self::getImagicalImagicalImagicalImagicalImagicalMessages($toPlayer);
-        foreach ($ImagicalImagicalImagicalImagicalImagicalMessages as $ImagicalMessage) {
+        $ImagicalMessages = self::getImagicalMessages($toPlayer);
+        foreach ($ImagicalMessages as $ImagicalMessage) {
             if ($ImagicalMessage["sender"] == $fromPlayer) {
                 $mcount++;
             }
