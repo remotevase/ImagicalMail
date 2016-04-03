@@ -1,1 +1,14 @@
 prefix: "[ImagicalMail]"
+messages:
+    count: "You have %1$d ImagicalMessages."
+    
+    cleared: "All ImagicalMessages cleared from your ImagicalInbox"
+    
+    sent: "ImagicalMessage sent!"
+    similar: "You already sent an ImagicalMessage like that!"
+    no_player: "%1$s has no ImagicalInbox!"
+    too_many: "You have reached your ImagicalMessage limit. It is set to %1$s!"
+    
+    new_message: "%1$s just sent you a new ImagicalMessage!"
+    
+    not_allowed: "You are not allowed to broadcast ImagicalMail."
