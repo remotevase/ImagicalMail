@@ -1,5 +1,5 @@
 <?php
-namespace ImagicalMail\ImagicalLoader\Loader;
+namespace ImagicalMail\ImagicalLoader;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
@@ -8,7 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as C;
-class ImagicalMail extends PluginBase implements Listener {
+class Loader extends PluginBase implements Listener {
     const CONFIG_MAXImagicalMessage = "maxImagicalMessagesToPlayer";
     const CONFIG_SIMILARLIM = "similarLimit";
     const CONFIG_NOTIFY = "notifyOnNew";
