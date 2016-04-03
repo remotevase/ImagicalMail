@@ -1,5 +1,5 @@
 <?php
-namespace ImagicalMail\ImagicalMail;
+namespace ImagicalMail\ImagicalLoader;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
