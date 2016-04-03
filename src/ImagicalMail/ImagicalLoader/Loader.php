@@ -9,19 +9,19 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as C;
 class ImagicalMail extends PluginBase implements Listener {
-    const CONFIG_MAXMESSAGE = "maxMessagesToPlayer";
+    const CONFIG_MAXImagicalMessage = "maxImagicalMessagesToPlayer";
     const CONFIG_SIMILARLIM = "similarLimit";
     const CONFIG_NOTIFY = "notifyOnNew";
-    protected $messages = [];
+    protected $ImagicalMessages = [];
     public $prefix;
     
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->saveDefaultConfig();
         $this->reloadConfig();
-        $this->saveResource("messages.yml");
-        $messages = (new Config($this->getDataFolder() . "messages.yml"))->getAll();
-        $this->messages = $this->parseMessages($messages);
+        $this->saveResource("ImagicalMessages.yml");
+        $ImagicalMessages = (new Config($this->getDataFolder() . "ImagicalMessages.yml"))->getAll();
+        $this->ImagicalMessages = $this->parseImagicalMessages($ImagicalMessages);
         ImagicalMain::setupDataFiles($this);
         $this->getLogger()->info(C::YELLOW."ImagicalMail has loaded!");
         $this->prefix = $this->plugin->getConfig()->get("prefix");
@@ -34,59 +34,59 @@ class ImagicalMail extends PluginBase implements Listener {
             case "mail":
                 switch (strtolower(array_shift($args))) {
                     case "see":
-                        $messages = ImagicalMain::getMessages($this->getUserName($sender));
-                        $sender->sendMessage($prefix. " " . sprintf($this->getMessage("messages.count"), count($messages)) . ".");
-                        foreach ($messages as $message) {
-                            $sender->sendMessage("    " . $message["sender"] . ": " . $message["message"]);
+                        $ImagicalMessages = ImagicalMain::getImagicalMessages($this->getUserName($sender));
+                        $sender->sendImagicalMessage($prefix. " " . sprintf($this->getImagicalMessage("ImagicalMessages.count"), count($ImagicalMessages)) . ".");
+                        foreach ($ImagicalMessages as $ImagicalMessage) {
+                            $sender->sendImagicalMessage("    " . $ImagicalMessage["sender"] . ": " . $ImagicalMessage["ImagicalMessage"]);
                         }
                         break;
                     case "clear":
-                    case $this->getMessage("commands.names.clear"):
-                        ImagicalMain::clearMessages($this->getUserName($sender));
-                        $sender->sendMessage($prefix. " " . $this->getMessage("messages.cleared"));
+                    case $this->getImagicalMessage("commands.names.clear"):
+                        ImagicalMain::clearImagicalMessages($this->getUserName($sender));
+                        $sender->sendImagicalMessage($prefix. " " . $this->getImagicalMessage("ImagicalMessages.cleared"));
                         break;
                     case "send":
-                    case $this->getMessage("commands.names.send"):
+                    case $this->getImagicalMessage("commands.names.send"):
                         $senderName = $this->getUserName($sender);
                         $recipiant = strtolower(array_shift($args));
-                        $message = implode(" ", $args);
-                        if ($recipiant != NULL && $message != NULL) {
+                        $ImagicalMessage = implode(" ", $args);
+                        if ($recipiant != NULL && $ImagicalMessage != NULL) {
                             if ($this->checkUser($recipiant)) {
-                                if ($this->isMessageSimilar($senderName, $recipiant, $message)) {
-                                    $sender->sendMessage($this->getMessage("messages.similar"));
+                                if ($this->isImagicalMessagesimilar($senderName, $recipiant, $ImagicalMessage)) {
+                                    $sender->sendImagicalMessage($this->getImagicalMessage("ImagicalMessages.similar"));
                                 }else{
-                                    $msgCount = s:countMessagesFromPlayer($senderName, $recipiant);
-                                    $msgCountMax = $this->getConfig()->get(ImagicalMail::CONFIG_MAXMESSAGE);
+                                    $msgCount = s:countImagicalMessagesFromPlayer($senderName, $recipiant);
+                                    $msgCountMax = $this->getConfig()->get(ImagicalMail::CONFIG_MAXImagicalMessage);
                                     if ($msgCount > $msgCountMax) {
-                                        $sender->sendMessage($prefix. " " . sprintf($this->getMessage("messages.too_many"), $recipiant) . " (" . ($msgCount - 1) . "/$msgCountMax)");
+                                        $sender->sendImagicalMessage($prefix. " " . sprintf($this->getImagicalMessage("ImagicalMessages.too_many"), $recipiant) . " (" . ($msgCount - 1) . "/$msgCountMax)");
                                     }else{
-                                        ImagicalMain::addMessage($recipiant, $senderName, $message);
-                                        $sender->sendMessage($prefix. " " . $this->getMessage("messages.sent") . " ($msgCount/$msgCountMax)");
+                                        ImagicalMain::addImagicalMessage($recipiant, $senderName, $ImagicalMessage);
+                                        $sender->sendImagicalMessage($prefix. " " . $this->getImagicalMessage("ImagicalMessages.sent") . " ($msgCount/$msgCountMax)");
                                         $this->sendNotification($recipiant, $senderName);
                                     }
                                 }
                             }else{
-                                $sender->sendMessage($prefix. " " . sprintf($this->getMessage("messages.no_player"), $recipiant));
+                                $sender->sendImagicalMessage($prefix. " " . sprintf($this->getImagicalMessage("ImagicalMessages.no_player"), $recipiant));
                             }
                         }else{
-                            $sender->sendMessage($this->getSendCommandUsage());
+                            $sender->sendImagicalMessage($this->getSendCommandUsage());
                         }
                         break;
                     case "sendall":
                         if ($sender->hasPermission("imagicalmail.command.mail.all")) {
                             $senderName = $this->getUserName($sender);
-                            $message = implode(" ", $args);
-                            ImagicalMain::sendall($senderName, $message);
-                            $sender->sendMessage($prefix. " " . $this->getMessage("messages.sent"));
+                            $ImagicalMessage = implode(" ", $args);
+                            ImagicalMain::sendall($senderName, $ImagicalMessage);
+                            $sender->sendImagicalMessage($prefix. " " . $this->getImagicalMessage("ImagicalMessages.sent"));
                             foreach ($this->getServer()->getOnlinePlayers() as $player) {
                                 $this->sendNotification($player->getName(), $senderName);
                             }
                         }else{
-                            $sender->sendMessage($prefix. " " . $this->getMessage("messages.not_allowed"));
+                            $sender->sendImagicalMessage($prefix. " " . $this->getImagicalMessage("ImagicalMessages.not_allowed"));
                         }
                         break;
                     default:
-                        $sender->sendMessage($this->getMessage("commands.usage.usage") . ": " . $this->getMainCommandUsage());
+                        $sender->sendImagicalMessage($this->getImagicalMessage("commands.usage.usage") . ": " . $this->getMainCommandUsage());
                 }
                 return true;
             default:
@@ -101,20 +101,20 @@ class ImagicalMail extends PluginBase implements Listener {
         if ($this->getConfig()->get(ImagicalMail::CONFIG_NOTIFY) &&
                 ($pPlayer = $this->getServer()->getPlayerExact($player)) !== null &&
                 $pPlayer->isOnline()) {
-            $pPlayer->sendMessage($prefix. " " . sprintf($this->getMessage("messages.new_message"), $sender));
+            $pPlayer->sendImagicalMessage($prefix. " " . sprintf($this->getImagicalMessage("ImagicalMessages.new_ImagicalMessage"), $sender));
         }
     }
-    public function isMessageSimilar($fromPlayer, $toPlayer, $newmessage) {
+    public function isImagicalMessagesimilar($fromPlayer, $toPlayer, $newImagicalMessage) {
         $limit = $this->getConfig()->get(ImagicalMail::CONFIG_SIMILARLIM);
         #console("limit:$limit");
         #console("1 - limit:" . 1 - $limit);
         if ($limit == 0) {
             return false;
         }
-        $messages = ImagicalMain::getMessages($toPlayer);
-        foreach ($messages as $message) {
-            if ($message["sender"] == $fromPlayer) {
-                if ($this->compareStrings($message["message"], $newmessage) <= (1 - $limit)) {
+        $ImagicalMessages = ImagicalMain::getImagicalMessages($toPlayer);
+        foreach ($ImagicalMessages as $ImagicalMessage) {
+            if ($ImagicalMessage["sender"] == $fromPlayer) {
+                if ($this->compareStrings($ImagicalMessage["ImagicalMessage"], $newImagicalMessage) <= (1 - $limit)) {
                     return true;
                 }
             }
@@ -140,33 +140,33 @@ class ImagicalMail extends PluginBase implements Listener {
     }
     public function onRespawn(PlayerRespawnEvent $event) {
         $player = $event->getPlayer();
-        $messagecount = ImagicalMain::getMessageCount($player);
-        $player->sendMessage($prefix. " " . sprintf($this->getMessage("messages.count"), $messagecount) . ".  /"
-                . $this->getMessage("commands.names.mail") . " "
-                . $this->getMessage("commands.names.see"));
+        $ImagicalMessagecount = ImagicalMain::getImagicalMessageCount($player);
+        $player->sendImagicalMessage($prefix. " " . sprintf($this->getImagicalMessage("ImagicalMessages.count"), $ImagicalMessagecount) . ".  /"
+                . $this->getImagicalMessage("commands.names.mail") . " "
+                . $this->getImagicalMessage("commands.names.see"));
     }
-    public function getMessage($key) {
-        return isset($this->messages[$key]) ? $this->messages[$key] : $key;
+    public function getImagicalMessage($key) {
+        return isset($this->ImagicalMessages[$key]) ? $this->ImagicalMessages[$key] : $key;
     }
     public function getMainCommandUsage() {
-        return "/" . $this->getMessage("commands.names.mail")
-                . " < " . $this->getMessage("commands.names.see") . " | "
-                . $this->getMessage("commands.names.clear") . " | "
-                . $this->getMessage("commands.names.send") . " | "
-                . $this->getMessage("commands.names.sendall") . " >";
+        return "/" . $this->getImagicalMessage("commands.names.mail")
+                . " < " . $this->getImagicalMessage("commands.names.see") . " | "
+                . $this->getImagicalMessage("commands.names.clear") . " | "
+                . $this->getImagicalMessage("commands.names.send") . " | "
+                . $this->getImagicalMessage("commands.names.sendall") . " >";
     }
     public function getSendCommandUsage() {
-        return $this->getMessage("commands.usage.usage") . ": /"
-                . $this->getMessage("commands.names.mail") . " "
-                . $this->getMessage("commands.names.send") . " < "
-                . $this->getMessage("commands.usage.player") . " > < "
-                . $this->getMessage("commands.usage.message") . " >";
+        return $this->getImagicalMessage("commands.usage.usage") . ": /"
+                . $this->getImagicalMessage("commands.names.mail") . " "
+                . $this->getImagicalMessage("commands.names.send") . " < "
+                . $this->getImagicalMessage("commands.usage.player") . " > < "
+                . $this->getImagicalMessage("commands.usage.ImagicalMessage") . " >";
     }
-    private function parseMessages(array $messages) {
+    private function parseImagicalMessages(array $ImagicalMessages) {
         $result = [];
-        foreach ($messages as $key => $value) {
+        foreach ($ImagicalMessages as $key => $value) {
             if (is_array($value)) {
-                foreach ($this->parseMessages($value) as $k => $v) {
+                foreach ($this->parseImagicalMessages($value) as $k => $v) {
                     $result[$key . "." . $k] = $v;
                 }
             }else{
