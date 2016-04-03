@@ -31,7 +31,6 @@ class ImagicalMail implements Plugin {
     public function commandHandler($cmd, $params, $issuer, $alias) {
         if ($cmd == "mail") {
             switch (strtolower(array_shift($params))) {
-                case "read":  // fallthrough
                 case "view":
                     if ($issuer instanceof Player) {
                         $messages = $this->getMessages($issuer->iusername);
