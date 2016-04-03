@@ -1,0 +1,14 @@
+# When a player first joins, they will recieve this message
+newPlayerImagicalMessage: Welcome to the Server!
+
+# Set to true if you want players to recieve notifications if they get a new ImagicalMessage
+notifyOnNew: true
+
+# This is the maximum number of ImagicalMessages that can be sent to a player
+maxImagicalMessagesToPlayer: 10
+
+#Limit for checking spam. Spam messages are messages that are overly similar
+# 0 will disable checking messages.
+# The percent of harshness is 1.0 - <decimal between 0 and 1>. That number would be multiplied by 100 to get the percent
+# 1 will only block exact duplicates.
+similarLimit: 0
