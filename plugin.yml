@@ -2,7 +2,7 @@ name: ImagicalMail
 author: remote_vase
 version: 1.0.0dev#1
 api: [1.0.0, 2.0.0, 3.0.0]
-main: ImagicalMail\ImagicalMail
+main: ImagicalMail\ImagicalLoader\Loader
 load: POSTWORLD
 commands:
 /mail <view|read|clear|send>
