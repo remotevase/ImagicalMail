@@ -11,4 +11,4 @@ Send mail on your ImagicalMine Server!
 
 # Help Please:
 
-** remotevase cannot test the plugin on his own because he doesn't have access to an ImagicalMine server. Can someone else please test it and submit the results in the issues section **
+**remotevase cannot test the plugin on his own because he doesn't have access to an ImagicalMine server. Can someone else please test it and submit the results in the issues section**
